@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:28:11 by gasouza           #+#    #+#             */
-/*   Updated: 2022/05/07 23:10:14 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/05/07 23:40:57 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
-	static char	*str;
+	char		*str;
 	char		*n_pos;
 	ssize_t		b_read;
 

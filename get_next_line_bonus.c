@@ -6,7 +6,7 @@
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:28:11 by gasouza           #+#    #+#             */
-/*   Updated: 2022/05/07 23:08:35 by gasouza          ###   ########.fr       */
+/*   Updated: 2022/05/07 23:42:02 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,13 @@ char	*get_next_line(int fd)
 		{
 			add_str(&fds->str, fds->buffer, n_pos - fds->buffer);
 			ft_strlcpy(fds->buffer, n_pos, ft_strlen(n_pos) + 1);
+			continue ;
 		}
-		else
-		{
-			add_str(&fds->str, fds->buffer, ft_strlen(fds->buffer));
-			b_read = read(fd, fds->buffer, BUFFER_SIZE);
-			if (b_read < 0)
-				return (NULL);
-			fds->buffer[b_read] = '\0';
-		}
+		add_str(&fds->str, fds->buffer, ft_strlen(fds->buffer));
+		b_read = read(fd, fds->buffer, BUFFER_SIZE);
+		if (b_read < 0)
+			return (NULL);
+		fds->buffer[b_read] = '\0';
 	}
 	return (fds->str);
 }

@@ -28,15 +28,13 @@ char	*get_next_line(int fd)
 		{
 			add_str(&str, buffer, n_pos - buffer);
 			ft_strlcpy(buffer, n_pos, ft_strlen(n_pos) + 1);
+			continue ;
 		}
-		else
-		{
-			add_str(&str, buffer, ft_strlen(buffer));
-			b_read = read(fd, buffer, BUFFER_SIZE);
-			if (b_read < 0)
-				return (NULL);
-			buffer[b_read] = '\0';
-		}
+		add_str(&str, buffer, ft_strlen(buffer));
+		b_read = read(fd, buffer, BUFFER_SIZE);
+		if (b_read < 0)
+			return (NULL);
+		buffer[b_read] = '\0';
 	}
 	return (str);
 }

@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gasouza <gasouza@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 15:28:11 by gasouza           #+#    #+#             */
-/*   Updated: 2022/05/07 23:40:57 by gasouza          ###   ########.fr       */
+/*   Updated: 2023/03/25 10:12:22 by gasouza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
-	char		*str;
-	char		*n_pos;
-	ssize_t		b_read;
+	static char	buffer[MAX_FDS][BUFFER_SIZE + 1];
+	char		*line_str;
+	const char	*end_line_at;
+	ssize_t		bytes_read;
 
-	str = NULL;
-	b_read = -1;
-	while (!ft_strchr(str, '\n') && b_read != 0)
+	line_str = NULL;
+	bytes_read = -1;
+	while (!find_end_line_character(line_str) && bytes_read != 0)
 	{
-		n_pos = ft_strchr(buffer, '\n');
-		if (n_pos++)
+		end_line_at = find_end_line_character(buffer[fd]);
+		if (end_line_at++)
 		{
-			add_str(&str, buffer, n_pos - buffer);
-			ft_strlcpy(buffer, n_pos, ft_strlen(n_pos) + 1);
+			concatenate_strs(&line_str, buffer[fd], end_line_at - buffer[fd]);
+			copy_str(buffer[fd], end_line_at, get_strlen(end_line_at) + 1);
 			continue ;
 		}
-		add_str(&str, buffer, ft_strlen(buffer));
-		b_read = read(fd, buffer, BUFFER_SIZE);
-		if (b_read < 0)
+		concatenate_strs(&line_str, buffer[fd], get_strlen(buffer[fd]));
+		bytes_read = read(fd, buffer[fd], BUFFER_SIZE);
+		if (bytes_read < 0)
 			return (NULL);
-		buffer[b_read] = '\0';
+		buffer[fd][bytes_read] = '\0';
 	}
-	return (str);
+	return (line_str);
 }
